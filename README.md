@@ -1,14 +1,17 @@
-# Business Travel UI Component Library
+# React component template cli
 
 ## Motivation
+
 The tool is small and intended for personal use (for now). Helps to quickly create new components.
 
 ## How to use?
+
 ```
 $ yarn start --path components/{ComponentName}
 ```
 
 ## What will create?
+
 ```
 $ yarn start --path components/Input
 ```
