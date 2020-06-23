@@ -19,9 +19,9 @@ import * as S from './${componentName}.styles';
 import * as U from './${componentName}.utils';
 
 function ${componentName}(props: T.${componentName}Props): JSX.Element {
-  const { children, ...otherProps } = props;
+  const { style, children, className, ...otherProps } = props;
 
-  return <S.Container {...otherProps}>{children}</S.Container>;
+  return <S.Container style={style} className={className} {...otherProps}>{children}</S.Container>;
 }
 
 ${componentName}.defaultProps = U.defaultProps;
@@ -44,13 +44,14 @@ export const Container = styled.div\`\`;
  * get types
  */
 function getTypesFile(componentName) {
-  return `import { ReactNode } from 'react';
+  return `import { ReactNode, CSSProperties } from 'react';
 
 export interface ${componentName}DefaultProps {}
 
-export interface ${componentName}Props extends ${componentName}DefaultProps {
-  className?: string;
+export interface ${componentName}Props extends Partial<${componentName}DefaultProps> {
+  style?: CSSProperties;
   children?: ReactNode;
+  className?: string;
 }
 `;
 }
