@@ -24,7 +24,9 @@ function ${componentName}(props: T.${componentName}Props): JSX.Element {
   return <S.Container style={style} className={className} {...otherProps}>{children}</S.Container>;
 }
 
-${componentName}.defaultProps = U.defaultProps;
+const defaultProps: T.${componentName}DefaultProps = {};
+
+${componentName}.defaultProps = defaultProps;
 
 export default ${componentName};
 `;
@@ -60,9 +62,7 @@ export interface ${componentName}Props extends Partial<${componentName}DefaultPr
  * get utils
  */
 function getUtilsFile(componentName) {
-  return `import * as T from './${componentName}.types';
-
-export const defaultProps: T.${componentName}DefaultProps = {};`;
+  return `import * as T from './${componentName}.types';`;
 }
 
 /**
