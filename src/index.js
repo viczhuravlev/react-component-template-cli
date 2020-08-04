@@ -1,4 +1,3 @@
-const fs = require('fs');
 const minimist = require('minimist');
 
 const {
@@ -28,7 +27,9 @@ const componentPath = [__dirname, ...folders];
 
 checkAndCreateFolders(folders);
 
-['index', 'component', 'tests', 'utils', 'types', 'styles', 'stories'].forEach(createComponentFile);
+['index', 'component', 'tests', 'utils', 'types', 'mocks', 'styles', 'stories'].forEach(
+  createComponentFile
+);
 
 function createComponentFile(fileName) {
   let fullFileName = '';
@@ -42,6 +43,7 @@ function createComponentFile(fileName) {
       fullFileName = `${componentName}.${ext}x`;
       break;
 
+    case 'mocks':
     case 'tests':
     case 'stories': {
       fullFileName = `${componentName}.${fileName}.${ext}x`;

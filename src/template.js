@@ -100,11 +100,18 @@ describe('[component] ${componentName}', () => {
 `;
 }
 
+function getMocksFile(componentName) {
+  return `import React from 'react';
+import ${componentName}, { ${componentName}Props } from './index';
+`;
+}
+
 module.exports = {
   getTestsFile,
   getIndexFile,
   getTypesFile,
   getUtilsFile,
+  getMocksFile,
   getStylesFile,
   getStoriesFile,
   getComponentFile,
