@@ -1,14 +1,17 @@
-const minimist = require('minimist');
+import minimist from 'minimist';
 
-const {
+import {
   createFile,
   getFilePath,
   checkAndCreateFolders,
   getStringWithCapitalLetter,
-} = require('./utils');
-const template = require('./template');
+} from './utils';
 
-const args = minimist(process.argv);
+import * as template from './template';
+
+type Args = { path: '.' | string; ext: 'ts' | string };
+
+const args = minimist<Args>(process.argv);
 
 const { path, ext = 'ts' } = args;
 
@@ -27,11 +30,11 @@ const componentPath = [__dirname, ...folders];
 
 checkAndCreateFolders(folders);
 
-['index', 'component', 'tests', 'utils', 'types', 'mocks', 'styles', 'stories'].forEach(
-  createComponentFile
-);
+function createComponentFile(fileName: string) {
+  const nameFunction = getStringWithCapitalLetter(fileName);
 
-function createComponentFile(fileName) {
+  if (!nameFunction) return;
+
   let fullFileName = '';
 
   switch (fileName) {
@@ -57,6 +60,19 @@ function createComponentFile(fileName) {
 
   createFile(
     getFilePath(componentPath, fullFileName),
-    template[`get${getStringWithCapitalLetter(fileName)}File`](componentName)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    template.default[`get${nameFunction}File`](componentName)
   );
 }
+
+[
+  'index',
+  'component',
+  'tests',
+  'utils',
+  'types',
+  'mocks',
+  'styles',
+  'stories',
+].forEach(createComponentFile);

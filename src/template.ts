@@ -1,7 +1,7 @@
 /**
  * get index file
  */
-function getIndexFile(componentName) {
+function getIndexFile(componentName: string) {
   return `export * from './${componentName}.types';
 
 export { default } from './${componentName}';`;
@@ -11,7 +11,7 @@ export { default } from './${componentName}';`;
  * get component
  */
 
-function getComponentFile(componentName) {
+function getComponentFile(componentName: string) {
   return `import React from 'react';
 
 import * as T from './${componentName}.types';
@@ -35,7 +35,7 @@ export default ${componentName};
 /**
  * get style
  */
-function getStylesFile(componentName) {
+function getStylesFile(_componentName: string) {
   return `import styled from 'styled-components';
 
 export const Container = styled.div\`\`;
@@ -45,7 +45,7 @@ export const Container = styled.div\`\`;
 /**
  * get types
  */
-function getTypesFile(componentName) {
+function getTypesFile(componentName: string) {
   return `import { ReactNode, CSSProperties } from 'react';
 
 export interface ${componentName}DefaultProps {}
@@ -61,14 +61,14 @@ export interface ${componentName}Props extends Partial<${componentName}DefaultPr
 /**
  * get utils
  */
-function getUtilsFile(componentName) {
+function getUtilsFile(componentName: string) {
   return `import * as T from './${componentName}.types';`;
 }
 
 /**
  * get stories
  */
-function getStoriesFile(componentName) {
+function getStoriesFile(componentName: string) {
   return `import React from 'react';
 import { storiesOf } from '@storybook/react';
 
@@ -80,7 +80,7 @@ storiesOf('${componentName}', module).add('Default', () => <${componentName}>${c
 /**
  * get tests
  */
-function getTestsFile(componentName) {
+function getTestsFile(componentName: string) {
   return `import React from 'react';
 import { mount } from 'enzyme';
 
@@ -103,14 +103,14 @@ describe('[component] ${componentName}', () => {
 /**
  * get mocks
  */
-function getMocksFile(componentName) {
+function getMocksFile(componentName: string) {
   return `import React from 'react';
 
 import ${componentName}, { ${componentName}Props } from './index';
 `;
 }
 
-module.exports = {
+const template = {
   getTestsFile,
   getIndexFile,
   getTypesFile,
@@ -120,3 +120,5 @@ module.exports = {
   getStoriesFile,
   getComponentFile,
 };
+
+export default template;

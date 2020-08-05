@@ -10,13 +10,13 @@ So this repository helps to quickly create new components.
 ## How to use?
 
 ```
-$ yarn start --path components/{ComponentName}
+$ yarn start --path ../components/{ComponentName}
 ```
 
 ## What will create?
 
 ```
-$ yarn start --path components/Input
+$ yarn start --path ../components/Input
 ```
 
 #### File Structure

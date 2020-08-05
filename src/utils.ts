@@ -1,16 +1,20 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-function createFile(fullPathTofile, data) {
+type Folders = string[];
+
+export function createFile(fullPathTofile: string, data?: string) {
+  if (!data) return;
+
   fs.writeFileSync(fullPathTofile, data);
 }
 
-function getFilePath(folders, componentFile) {
+export function getFilePath(folders: Folders, componentFile: string) {
   return path.resolve(...folders, componentFile);
 }
 
-function checkAndCreateFolders(folders) {
-  const currentFolders = [];
+export function checkAndCreateFolders(folders: Folders) {
+  const currentFolders: Folders = [];
 
   folders.forEach((element) => {
     currentFolders.push(element);
@@ -23,15 +27,8 @@ function checkAndCreateFolders(folders) {
   });
 }
 
-function getStringWithCapitalLetter(string) {
+export function getStringWithCapitalLetter(string?: string) {
   if (!string) return string;
 
   return string[0].toUpperCase() + string.slice(1);
 }
-
-module.exports = {
-  createFile,
-  getFilePath,
-  checkAndCreateFolders,
-  getStringWithCapitalLetter,
-};

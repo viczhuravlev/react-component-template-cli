@@ -1,0 +1,7 @@
+{
+  "*.{js,ts}": [
+    "eslint",
+    "prettier --write",
+    "type-coverage --ignore-catch --at-least 99"
+  ]
+}
