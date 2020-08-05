@@ -100,8 +100,12 @@ describe('[component] ${componentName}', () => {
 `;
 }
 
+/**
+ * get mocks
+ */
 function getMocksFile(componentName) {
   return `import React from 'react';
+
 import ${componentName}, { ${componentName}Props } from './index';
 `;
 }
