@@ -15,7 +15,11 @@ import * as U from './${componentName}.utils';
 function ${componentName}(props: T.${componentName}Props): JSX.Element {
   const { style, children, className, ...otherProps } = props;
 
-  return <S.Container style={style} className={className} {...otherProps}>{children}</S.Container>;
+  return (
+    <S.Container style={style} className={className} {...otherProps}>
+      {children}
+    </S.Container>
+  );
 }
 
 const defaultProps: T.${componentName}DefaultProps = {};
