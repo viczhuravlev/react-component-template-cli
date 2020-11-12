@@ -1,3 +1,6 @@
+![GitHub react-component-template-cli file size in bytes](https://img.shields.io/github/repo-size/viczhuravlev/react-component-template-cli?label=size)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/viczhuravlev/react-component-template-cli?style=plastic)
+
 # React component template cli
 
 > ⚠️ The tool is small and intended for personal use (for now). If somebody wants to help I will be glad to see your a pull request.
@@ -36,3 +39,10 @@ $ yarn start --path ../components/Input
 |   └── Another/
 ├── ....
 ```
+
+## License
+
+This material is available for private, non-commercial use under the
+[GPL version 3](http://www.gnu.org/licenses/gpl-3.0-standalone.html). If you
+would like to use this material to conduct your own workshop, please contact me
+at vzhuravlev15@gmail.com
