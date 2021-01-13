@@ -2,8 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "commonjs",
-    "declaration": false,
-    "outDir": "./build",
+    "outDir": "./lib",
     "rootDir": "./src",
     "removeComments": true,
 
@@ -16,10 +15,7 @@
 
     "moduleResolution": "node",
     "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "typeRoots": ["node_modules/@types", "src/types"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
 
@@ -29,6 +25,6 @@
 
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules", "build"]
+  "include": ["src"],
+  "exclude": ["node_modules", "lib", "**/*.test.ts"]
 }
