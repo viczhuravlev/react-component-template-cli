@@ -1,4 +1,4 @@
 {
-  "*.{js,ts}": ["eslint", "prettier --write", "type-coverage", "jest --findRelatedTests"],
+  "*.{ts}": ["eslint", "prettier --write", "type-coverage", "jest --findRelatedTests"],
   "*.mdx": ["prettier --write"]
 }
