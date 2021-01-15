@@ -1,78 +1,88 @@
-import minimist from 'minimist';
+#!/usr/bin/env node
 
-import {
-  createFile,
-  getFilePath,
-  checkAndCreateFolders,
-  getStringWithCapitalLetter,
-} from './utils';
+import fs from 'fs';
+import path from 'path';
 
-import * as template from './template';
+import config from './config';
 
-type Args = { path: '.' | string; ext: 'ts' | string };
+import logger from './utils/logger';
+import mustache from './utils/mustache';
+import { isExists } from './utils/helpers';
 
-const args = minimist<Args>(process.argv);
+const fsp = fs.promises;
 
-const { path, ext = 'ts' } = args;
+const { exit } = process;
 
-if (!path || path === '.') {
-  throw new Error(`--path is required.
-        If you want to create a component at the call point,
-        then you need to use "./{nameComponent}"
-    `);
-}
+async function checkFolders(pathFolders: string) {
+  const folders: string[] = pathFolders.split('/');
 
-const folders = path.split('/');
+  let currentPath = '';
 
-const componentName = folders[folders.length - 1];
+  // eslint-disable-next-line no-restricted-syntax
+  for await (const filename of folders) {
+    currentPath = path.join(currentPath, filename);
 
-const componentPath = [__dirname, ...folders];
-
-checkAndCreateFolders(folders);
-
-function createComponentFile(fileName: string) {
-  const nameFunction = getStringWithCapitalLetter(fileName);
-
-  if (!nameFunction) return;
-
-  let fullFileName = '';
-
-  switch (fileName) {
-    case 'index':
-      fullFileName = `index.${ext}`;
-      break;
-
-    case 'component':
-      fullFileName = `${componentName}.${ext}x`;
-      break;
-
-    case 'mocks':
-    case 'tests':
-    case 'stories': {
-      fullFileName = `${componentName}.${fileName}.${ext}x`;
-      break;
-    }
-
-    default: {
-      fullFileName = `${componentName}.${fileName}.${ext}`;
+    try {
+      await fsp.stat(currentPath);
+    } catch {
+      await fsp.mkdir(currentPath);
     }
   }
+}
 
-  createFile(
-    getFilePath(componentPath, fullFileName),
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    template.default[`get${nameFunction}File`](componentName)
+async function init() {
+  const folders = './components/test/Input'; // TODO: ask user
+  const nameComponent = 'Input'; // TODO: ask user
+  const componentFolderName = 'react'; // TODO: dynamic define
+  const pathTemplate = config.PATH_TEMPLATE; // TODO: ask user + default
+
+  const hasTemplate = await isExists(pathTemplate);
+
+  if (!hasTemplate) {
+    logger.error(`No templates folder found - ${pathTemplate}.`);
+
+    return;
+  }
+
+  const pathComponentFolderName = path.join(pathTemplate, componentFolderName);
+  const hasComponentFolder = await isExists(pathComponentFolderName);
+
+  if (!hasComponentFolder) {
+    logger.error(`folder with template component not found - ${pathTemplate}.`);
+
+    return;
+  }
+
+  await checkFolders(folders);
+
+  const allFiles = await fsp.readdir(pathComponentFolderName);
+
+  await Promise.all(
+    allFiles.map(async (fileName) => {
+      const fileString = await fsp.readFile(path.join(pathComponentFolderName, fileName), 'utf8');
+
+      await fsp.writeFile(
+        path.join(folders, mustache(fileName, { name: nameComponent })),
+        mustache(fileString, { name: nameComponent }),
+      );
+    }),
   );
 }
 
-[
-  'index',
-  'component',
-  'tests',
-  'utils',
-  'types',
-  'mocks',
-  'styles',
-  'stories',
-].forEach(createComponentFile);
+init();
+
+process.on('uncaughtException', (error) => {
+  logger.error(error.message, 'uncaughtException');
+
+  exit(-1);
+});
+
+process.on('unhandledRejection', (error: Error) => {
+  if (!error || !error.message) {
+    logger.error('Unknown error', 'unhandledRejection');
+  } else {
+    logger.error(error.message, 'unhandledRejection');
+  }
+
+  exit(-1);
+});
