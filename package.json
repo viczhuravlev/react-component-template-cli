@@ -18,7 +18,7 @@
     "format": "prettier --write \"src/**/*.ts\""
   },
   "dependencies": {
-    "minimist": "1.2.5"
+    "minimist": "1.2.6"
   },
   "devDependencies": {
     "@commitlint/cli": "9.1.1",
